@@ -6,16 +6,19 @@ import vue_resource from 'vue-resource';
 import bulma from 'bulma';
 import swal from 'sweetalert2';
 
+import conf from '../conf.json';
+
 import app from './app.vue';
 import home from './components/home.vue';
 import tarefas from './components/tarefas.vue';
-import cadastrarParceiro from './components/parceiro';
+import parceiro from './components/parceiro';
 
 vue.use(vuerouter);
 vue.use(vue_material);
 vue.use(vue_resource);
 vue.use(bulma);
 
+vue.http.options.root = conf.host.root;
 window.swal = swal;
 
 const router = new vuerouter({
@@ -32,9 +35,9 @@ const router = new vuerouter({
       component: tarefas
     },
     {
-      path: '/cadastrarParceiro',
-      name: 'cadastrarParceiro',
-      component: cadastrarParceiro
+      path: '/parceiro',
+      name: 'parceiro',
+      component: parceiro
     }
   ]
 });

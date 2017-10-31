@@ -15,26 +15,10 @@
 	</div>
       </md-toolbar>
 
-      <md-list-item @click="loadCategory('cadastrarParceiro')"
+      <md-list-item @click="loadCategory('parceiro')"
 		    href="">
-	Cadastrar Parceiro
+	Parceiro
       </md-list-item>
-      <!--md-list-item @click="loadCategory('inbox')"
-		    href="">
-	Caixa de entrada
-      </md-list-item>
-      <md-list-item @click="loadCategory('favoritos')"
-		    href="">
-	Favoritos
-      </md-list-item>
-      <md-list-item @click="loadCategory('saved-emails')"
-		    href="">
-	E-mails salvos
-      </md-list-item>
-      <md-list-item @click="loadCategory('tarefas')"
-		    href="">
-	Tarefas
-      </md-list-item-->
     </md-sidenav>
     
     <router-view></router-view>

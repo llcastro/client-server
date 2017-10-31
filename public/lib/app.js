@@ -150,6 +150,10 @@ var _sweetalert = __webpack_require__(9);
 
 var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
+var _conf = __webpack_require__(154);
+
+var _conf2 = _interopRequireDefault(_conf);
+
 var _app = __webpack_require__(139);
 
 var _app2 = _interopRequireDefault(_app);
@@ -173,6 +177,7 @@ _vue2.default.use(_vueMaterial2.default);
 _vue2.default.use(_vueResource2.default);
 _vue2.default.use(_bulma2.default);
 
+_vue2.default.http.options.root = _conf2.default.host.root;
 window.swal = _sweetalert2.default;
 
 var router = new _vueRouter2.default({
@@ -186,8 +191,8 @@ var router = new _vueRouter2.default({
     name: 'tarefas',
     component: _tarefas2.default
   }, {
-    path: '/cadastrarParceiro',
-    name: 'cadastrarParceiro',
+    path: '/parceiro',
+    name: 'parceiro',
     component: _parceiro2.default
   }]
 });
@@ -488,22 +493,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 _vue2.default.use(_vueRouter2.default);
 
@@ -575,11 +564,11 @@ var render = function() {
               attrs: { href: "" },
               on: {
                 click: function($event) {
-                  _vm.loadCategory("cadastrarParceiro")
+                  _vm.loadCategory("parceiro")
                 }
               }
             },
-            [_vm._v("\n\tCadastrar Parceiro\n      ")]
+            [_vm._v("\n\tParceiro\n      ")]
           )
         ],
         1
@@ -1030,10 +1019,34 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     return {
+      parceiros: [],
       cnpj: '',
       nome_fantasia: '',
       razao_social: '',
@@ -1045,24 +1058,34 @@ exports.default = {
 
   methods: {
     add: function add() {
+      var _this = this;
+
       this.$http.post('./parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(function (successCallback) {
-        console.log(successCallback);
         swal({
           title: 'Sucesso',
           text: successCallback.body.message,
           type: 'success'
         });
+        _this.list();
       }, function (errorCallback) {
-        console.log(errorCallback);
         swal({
           title: errorCallback.statusText,
           text: 'Erro: ' + errorCallback.status,
           type: 'error'
         });
       });
-    }
-  }
+    },
+    list: function list() {
+      var _this2 = this;
 
+      this.$http.get('./parceiro').then(function (response) {
+        _this2.parceiros = response.data;
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    this.list();
+  }
 };
 
 /***/ }),
@@ -1077,141 +1100,217 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "columns is-centered" }, [
-        _c(
-          "div",
-          { staticClass: "column is-half is-centered" },
-          [
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("CNPJ")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.cnpj,
-                    callback: function($$v) {
-                      _vm.cnpj = $$v
-                    },
-                    expression: "cnpj"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("Nome fantasia")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.nome_fantasia,
-                    callback: function($$v) {
-                      _vm.nome_fantasia = $$v
-                    },
-                    expression: "nome_fantasia"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("Razão social")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.razao_social,
-                    callback: function($$v) {
-                      _vm.razao_social = $$v
-                    },
-                    expression: "razao_social"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("e-mail")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.email,
-                    callback: function($$v) {
-                      _vm.email = $$v
-                    },
-                    expression: "email"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("Nome usuário")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.nome_usuario,
-                    callback: function($$v) {
-                      _vm.nome_usuario = $$v
-                    },
-                    expression: "nome_usuario"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-input-container",
-              [
-                _c("label", [_vm._v("Senha")]),
-                _vm._v(" "),
-                _c("md-textarea", {
-                  attrs: { required: "" },
-                  model: {
-                    value: _vm.senha,
-                    callback: function($$v) {
-                      _vm.senha = $$v
-                    },
-                    expression: "senha"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-button",
-              {
-                staticClass: "md-raised md-primary",
-                on: {
-                  click: function($event) {
-                    _vm.add()
-                  }
-                }
-              },
-              [_vm._v("Add")]
-            )
-          ],
-          1
-        )
-      ]),
+      _c(
+        "div",
+        { staticClass: "columns is-centered" },
+        [
+          _c(
+            "md-tabs",
+            { attrs: { "md-centered": "" } },
+            [
+              _c(
+                "md-tab",
+                { attrs: { "md-label": "Lista" } },
+                [
+                  _c(
+                    "md-list",
+                    _vm._l(_vm.parceiros, function(item) {
+                      return _c("md-list-item", [
+                        _c("span", [_vm._v("id: " + _vm._s(item.id))]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(", cnpj: " + _vm._s(item.cnpj))]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            ", nome_fantasia: " + _vm._s(item.nome_fantasia)
+                          )
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(", razao_social: " + _vm._s(item.razao_social))
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(", usuario_id: " + _vm._s(item.usuairo_id))
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(", nome: " + _vm._s(item.nome))]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(", email: " + _vm._s(item.email))]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(", senha: " + _vm._s(item.senha))]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(", status: " + _vm._s(item.status))
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            ", usuario_parceiro_id: " +
+                              _vm._s(item.usuario_parceiro_id) +
+                              ";"
+                          )
+                        ]),
+                        _c("br")
+                      ])
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("md-tab", { attrs: { "md-label": "Cadastrar" } }, [
+                _c("div", { staticClass: "columns is-centered" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-half is-centered" },
+                    [
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("CNPJ")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.cnpj,
+                              callback: function($$v) {
+                                _vm.cnpj = $$v
+                              },
+                              expression: "cnpj"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("Nome fantasia")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.nome_fantasia,
+                              callback: function($$v) {
+                                _vm.nome_fantasia = $$v
+                              },
+                              expression: "nome_fantasia"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("Razão social")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.razao_social,
+                              callback: function($$v) {
+                                _vm.razao_social = $$v
+                              },
+                              expression: "razao_social"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("e-mail")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.email,
+                              callback: function($$v) {
+                                _vm.email = $$v
+                              },
+                              expression: "email"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("Nome usuário")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.nome_usuario,
+                              callback: function($$v) {
+                                _vm.nome_usuario = $$v
+                              },
+                              expression: "nome_usuario"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("Senha")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.senha,
+                              callback: function($$v) {
+                                _vm.senha = $$v
+                              },
+                              expression: "senha"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-button",
+                        {
+                          staticClass: "md-raised md-primary",
+                          on: {
+                            click: function($event) {
+                              _vm.add()
+                            }
+                          }
+                        },
+                        [_vm._v("Add")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("router-view")
     ],
@@ -1227,6 +1326,13 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-280bfe4e", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 154:
+/***/ (function(module, exports) {
+
+module.exports = {"host":{"root":"http://localhost:80"}}
 
 /***/ }),
 

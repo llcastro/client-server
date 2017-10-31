@@ -131,7 +131,7 @@ router.delete('/', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  parceiro.parceiro_list(function(err, rows) {
+  parceiro.list(function(err, rows) {
     if (err) {
       res.status(404).send(err);
     } else {
