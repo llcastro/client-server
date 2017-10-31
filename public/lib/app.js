@@ -150,23 +150,23 @@ var _sweetalert = __webpack_require__(9);
 
 var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
-var _conf = __webpack_require__(154);
+var _conf = __webpack_require__(139);
 
 var _conf2 = _interopRequireDefault(_conf);
 
-var _app = __webpack_require__(139);
+var _app = __webpack_require__(140);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _home = __webpack_require__(142);
+var _home = __webpack_require__(143);
 
 var _home2 = _interopRequireDefault(_home);
 
-var _tarefas = __webpack_require__(145);
+var _tarefas = __webpack_require__(146);
 
 var _tarefas2 = _interopRequireDefault(_tarefas);
 
-var _parceiro = __webpack_require__(148);
+var _parceiro = __webpack_require__(149);
 
 var _parceiro2 = _interopRequireDefault(_parceiro);
 
@@ -398,14 +398,21 @@ exports.push([module.i, "/*! bulma.io v0.6.0 | MIT License | github.com/jgthms/b
 /***/ }),
 
 /***/ 139:
+/***/ (function(module, exports) {
+
+module.exports = {"host":{"root":"http://localhost:80/"}}
+
+/***/ }),
+
+/***/ 140:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(140)
+var __vue_script__ = __webpack_require__(141)
 /* template */
-var __vue_template__ = __webpack_require__(141)
+var __vue_template__ = __webpack_require__(142)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -446,7 +453,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 140:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,7 +526,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 141:
+/***/ 142:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -591,15 +598,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 142:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(143)
+var __vue_script__ = __webpack_require__(144)
 /* template */
-var __vue_template__ = __webpack_require__(144)
+var __vue_template__ = __webpack_require__(145)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -640,7 +647,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 143:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -661,7 +668,7 @@ exports.default = {};
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -686,15 +693,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 145:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(146)
+var __vue_script__ = __webpack_require__(147)
 /* template */
-var __vue_template__ = __webpack_require__(147)
+var __vue_template__ = __webpack_require__(148)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -735,7 +742,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -796,7 +803,7 @@ exports.default = {};
 
 /***/ }),
 
-/***/ 147:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -919,15 +926,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 148:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(149)
+var __vue_script__ = __webpack_require__(150)
 /* template */
-var __vue_template__ = __webpack_require__(150)
+var __vue_template__ = __webpack_require__(151)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -968,7 +975,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 149:
+/***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1090,7 +1097,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 150:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1115,7 +1122,7 @@ var render = function() {
                   _c(
                     "md-list",
                     _vm._l(_vm.parceiros, function(item) {
-                      return _c("md-list-item", [
+                      return _c("md-list-item", { key: item.id }, [
                         _c("span", [_vm._v("id: " + _vm._s(item.id))]),
                         _c("br"),
                         _vm._v(" "),
@@ -1326,13 +1333,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-280bfe4e", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 154:
-/***/ (function(module, exports) {
-
-module.exports = {"host":{"root":"http://localhost:80"}}
 
 /***/ }),
 

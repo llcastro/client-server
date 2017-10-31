@@ -4,7 +4,7 @@
       <md-tabs md-centered>
 	<md-tab md-label="Lista">
 	    <md-list>
-	      <md-list-item v-for="item in parceiros">
+	      <md-list-item v-for="item in parceiros" :key="item.id">
 		<span>id: {{ item.id }}</span><br>
 		<span>, cnpj: {{ item.cnpj }}</span><br>
 		<span>, nome_fantasia: {{ item.nome_fantasia }}</span><br>
