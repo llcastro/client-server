@@ -1,5 +1,5 @@
 {
   "host": {
-    "root": "http://localhost:80/"
+    "root": "http://localhost/"
   }
 }
