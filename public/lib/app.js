@@ -400,7 +400,7 @@ exports.push([module.i, "/*! bulma.io v0.6.0 | MIT License | github.com/jgthms/b
 /***/ 139:
 /***/ (function(module, exports) {
 
-module.exports = {"host":{"root":"https://personal-serasa.herokuapp.com/"}}
+module.exports = {"host":{"root":"https://my-serasa.herokuapp.com/"}}
 
 /***/ }),
 
