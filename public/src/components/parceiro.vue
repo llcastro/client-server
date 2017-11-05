@@ -3,20 +3,38 @@
     <div class="columns is-centered">
       <md-tabs md-centered>
 	<md-tab md-label="Lista">
-	    <md-list>
-	      <md-list-item v-for="item in parceiros" :key="item.id">
-		<span>id: {{ item.id }}</span><br>
-		<span>, cnpj: {{ item.cnpj }}</span><br>
-		<span>, nome_fantasia: {{ item.nome_fantasia }}</span><br>
-		<span>, razao_social: {{ item.razao_social }}</span><br>
-		<span>, usuario_id: {{ item.usuairo_id }}</span><br>
-		<span>, nome: {{ item.nome }}</span><br>
-		<span>, email: {{ item.email }}</span><br>
-		<span>, senha: {{ item.senha }}</span><br>
-		<span>, status: {{ item.status }}</span><br>
-		<span>, usuario_parceiro_id: {{ item.usuario_parceiro_id }};</span><br>
-	      </md-list-item>
-	    </md-list>
+	  <div class="columns is-centered">
+	    <table class="table">
+	      <thead>
+		<tr>
+		  <th>ID</th>
+		  <th>CNPJ</th>
+		  <th>Nome Fantasia</th>
+		  <th>Razao Social</th>
+		  <th>ID Usuario</th>
+		  <th>Nome</th>
+		  <th>E-mail</th>
+		  <th>Senha</th>
+		  <th>Status</th>
+		  <th>Usuario Parceiro ID</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr v-for="item in parceiros" :key="item.id">
+		  <td>{{ item.id }}</td>
+		  <td>{{ item.cnpj }}</td>
+		  <td>{{ item.nome_fantasia }}</td>
+		  <td>{{ item.razao_social }}</td>
+		  <td>{{ item.usuario_id }}</td>
+		  <td>{{ item.nome }}</td>
+		  <td>{{ item.email }}</td>
+		  <td>{{ item.senha }}</td>
+		  <td>{{ item.status }}</td>
+		  <td>{{ item.usuario_parceiro_id }}</td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
 	</md-tab>
 	
 	<md-tab md-label="Cadastrar">

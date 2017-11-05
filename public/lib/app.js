@@ -1049,6 +1049,24 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
@@ -1115,65 +1133,62 @@ var render = function() {
             "md-tabs",
             { attrs: { "md-centered": "" } },
             [
-              _c(
-                "md-tab",
-                { attrs: { "md-label": "Lista" } },
-                [
-                  _c(
-                    "md-list",
-                    _vm._l(_vm.parceiros, function(item) {
-                      return _c("md-list-item", { key: item.id }, [
-                        _c("span", [_vm._v("id: " + _vm._s(item.id))]),
-                        _c("br"),
+              _c("md-tab", { attrs: { "md-label": "Lista" } }, [
+                _c("div", { staticClass: "columns is-centered" }, [
+                  _c("table", { staticClass: "table" }, [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("ID")]),
                         _vm._v(" "),
-                        _c("span", [_vm._v(", cnpj: " + _vm._s(item.cnpj))]),
-                        _c("br"),
+                        _c("th", [_vm._v("CNPJ")]),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            ", nome_fantasia: " + _vm._s(item.nome_fantasia)
-                          )
-                        ]),
-                        _c("br"),
+                        _c("th", [_vm._v("Nome Fantasia")]),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(", razao_social: " + _vm._s(item.razao_social))
-                        ]),
-                        _c("br"),
+                        _c("th", [_vm._v("Razao Social")]),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(", usuario_id: " + _vm._s(item.usuairo_id))
-                        ]),
-                        _c("br"),
+                        _c("th", [_vm._v("ID Usuario")]),
                         _vm._v(" "),
-                        _c("span", [_vm._v(", nome: " + _vm._s(item.nome))]),
-                        _c("br"),
+                        _c("th", [_vm._v("Nome")]),
                         _vm._v(" "),
-                        _c("span", [_vm._v(", email: " + _vm._s(item.email))]),
-                        _c("br"),
+                        _c("th", [_vm._v("E-mail")]),
                         _vm._v(" "),
-                        _c("span", [_vm._v(", senha: " + _vm._s(item.senha))]),
-                        _c("br"),
+                        _c("th", [_vm._v("Senha")]),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(", status: " + _vm._s(item.status))
-                        ]),
-                        _c("br"),
+                        _c("th", [_vm._v("Status")]),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            ", usuario_parceiro_id: " +
-                              _vm._s(item.usuario_parceiro_id) +
-                              ";"
-                          )
-                        ]),
-                        _c("br")
+                        _c("th", [_vm._v("Usuario Parceiro ID")])
                       ])
-                    })
-                  )
-                ],
-                1
-              ),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.parceiros, function(item) {
+                        return _c("tr", { key: item.id }, [
+                          _c("td", [_vm._v(_vm._s(item.id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.cnpj))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.nome_fantasia))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.razao_social))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.usuario_id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.nome))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.email))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.senha))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.status))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.usuario_parceiro_id))])
+                        ])
+                      })
+                    )
+                  ])
+                ])
+              ]),
               _vm._v(" "),
               _c("md-tab", { attrs: { "md-label": "Cadastrar" } }, [
                 _c("div", { staticClass: "columns is-centered" }, [
