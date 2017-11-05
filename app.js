@@ -49,7 +49,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen('80', function() {
+app.listen(process.env.PORT || 80, function() {
   console.log('server started');
 });
 
