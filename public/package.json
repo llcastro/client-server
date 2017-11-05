@@ -4,7 +4,7 @@
   "description": "Serasa",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
+    "build": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "author": "Luis Castro",
