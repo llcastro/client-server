@@ -5,6 +5,7 @@ import vue_material from 'vue-material';
 import vue_resource from 'vue-resource';
 import bulma from 'bulma';
 import swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import conf from '../conf.json';
 
