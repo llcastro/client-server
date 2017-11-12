@@ -5,9 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var session = require('express-session');
 
 var index = require('./routes/index');
 var parceiro = require('./routes/parceiro');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -27,9 +30,12 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-Width, Content-Type, Accept");
   next();
 });
+app.use(session({secret: 'shhhhhhhhh'}));
 
 app.use('/', index);
 app.use('/parceiro', parceiro);
+app.use('/login', login);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,5 +58,7 @@ app.use(function(err, req, res, next) {
 app.listen(process.env.PORT || 80, function() {
   console.log('server started');
 });
+
+global.logged_users = [];
 
 module.exports = app;
