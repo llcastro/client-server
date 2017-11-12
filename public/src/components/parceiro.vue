@@ -2,41 +2,6 @@
   <div>
     <div class="columns is-centered">
       <md-tabs md-centered>
-	<md-tab md-label="Lista">
-	  <div class="columns is-centered">
-	    <table class="table">
-	      <thead>
-		<tr>
-		  <th>ID</th>
-		  <th>CNPJ</th>
-		  <th>Nome Fantasia</th>
-		  <th>Razao Social</th>
-		  <th>ID Usuario</th>
-		  <th>Nome</th>
-		  <th>E-mail</th>
-		  <th>Senha</th>
-		  <th>Status</th>
-		  <th>Usuario Parceiro ID</th>
-		</tr>
-	      </thead>
-	      <tbody>
-		<tr v-for="item in parceiros" :key="item.id">
-		  <td>{{ item.id }}</td>
-		  <td>{{ item.cnpj }}</td>
-		  <td>{{ item.nome_fantasia }}</td>
-		  <td>{{ item.razao_social }}</td>
-		  <td>{{ item.usuario_id }}</td>
-		  <td>{{ item.nome }}</td>
-		  <td>{{ item.email }}</td>
-		  <td>{{ item.senha }}</td>
-		  <td>{{ item.status }}</td>
-		  <td>{{ item.usuario_parceiro_id }}</td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </div>
-	</md-tab>
-	
 	<md-tab md-label="Cadastrar">
 	  <div class="columns is-centered">
 	    <div class="column is-half is-centered">
@@ -74,6 +39,32 @@
 	    </div>
 	  </div>
 	</md-tab>
+
+	
+	<md-tab md-label="Lista">
+	  <div class="columns is-centered">
+	    <table class="table">
+	      <thead>
+		<tr>
+		  <th>CNPJ</th>
+		  <th>Nome Fantasia</th>
+		  <th>Razao Social</th>
+		  <th>Nome</th>
+		  <th>E-mail</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr v-for="item in parceiros" :key="item.id">
+		  <td>{{ item.cnpj }}</td>
+		  <td>{{ item.nome_fantasia }}</td>
+		  <td>{{ item.razao_social }}</td>
+		  <td>{{ item.nome_usuario }}</td>
+		  <td>{{ item.email }}</td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</md-tab>
       </md-tabs>
     </div>
     
@@ -96,7 +87,7 @@
    },
    methods: {
      add() {
-       this.$http.post('./parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(successCallback => {
+       this.$http.post('parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.message,
@@ -112,8 +103,14 @@
        });
      },
      list() {
-       this.$http.get('./parceiro').then(response => {
+       this.$http.get('parceiro').then(response => {
 	 this.parceiros = response.data;
+       }, response => {
+	 swal({
+	   title: response.statusText,
+	   text: 'Erro: ' + response.status + ', ' + response.body.mensagem,
+	   type: 'error'
+	 });
        });
      }
    },

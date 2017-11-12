@@ -7,8 +7,7 @@
       
       <h1 class="md-title" style="flex: 1">Serasa</h1>
 
-      <md-button v-if="!logged" class="md-raised" @click="home()">Login</md-button>
-      <md-button v-if="logged" class="md-raised" @click="logout()">Logout</md-button>
+      <md-button v-if="this.$cookie.get('token')" class="md-raised" @click="logout()">Logout</md-button>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav">
@@ -31,20 +30,23 @@
 <script>
  export default {
    data() {
-     return {
-       logged: false
-     }
+     return {}
    },
    methods: {
      toggleLeftSidenav() {
        this.$refs.leftSidenav.toggle();
      },
      loadCategory(category) {
+       if (!this.$cookie.get('token')) {
+	 swal({
+	   title: 'Acesso não autorizado',
+	   text: 'Usuário não logado',
+	   type: 'warning'
+	 });
+	 return;
+       }
        this.$refs.leftSidenav.close();
        this.$router.push({ name: category });
-     },
-     home() {
-       this.$router.push({ name: 'home'});
      },
      logout() {
        this.$http.put('logout').then(successCallback => {
@@ -54,8 +56,7 @@
 	   type: 'success'
 	 });
 	 this.$cookie.delete('token');
-	 this.logged = false;
-	 this.home();
+	 this.$router.push({ name: 'home' });
        }, errorCallback => {
 	 swal({
 	   title: errorCallback.statusText,
@@ -63,18 +64,9 @@
 	   type: 'error'
 	 });
        });
-     },
-     getCookie() {
-       console.log('app.vue, token:', this.$cookie.get('token'));
-       if (this.$cookie.get('token')) {
-	 this.logged = true;
-       } else {
-	 this.logged = false;
-       }
      }
    },
    beforeMount() {
-     this.getCookie();
      this.$router.push({ name: 'home' });
    }
  }

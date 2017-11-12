@@ -547,13 +547,10 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
 
 exports.default = {
   data: function data() {
-    return {
-      logged: false
-    };
+    return {};
   },
 
   methods: {
@@ -561,11 +558,16 @@ exports.default = {
       this.$refs.leftSidenav.toggle();
     },
     loadCategory: function loadCategory(category) {
+      if (!this.$cookie.get('token')) {
+        swal({
+          title: 'Acesso não autorizado',
+          text: 'Usuário não logado',
+          type: 'warning'
+        });
+        return;
+      }
       this.$refs.leftSidenav.close();
       this.$router.push({ name: category });
-    },
-    home: function home() {
-      this.$router.push({ name: 'home' });
     },
     logout: function logout() {
       var _this = this;
@@ -577,8 +579,7 @@ exports.default = {
           type: 'success'
         });
         _this.$cookie.delete('token');
-        _this.logged = false;
-        _this.home();
+        _this.$router.push({ name: 'home' });
       }, function (errorCallback) {
         swal({
           title: errorCallback.statusText,
@@ -586,18 +587,9 @@ exports.default = {
           type: 'error'
         });
       });
-    },
-    getCookie: function getCookie() {
-      console.log('app.vue, token:', this.$cookie.get('token'));
-      if (this.$cookie.get('token')) {
-        this.logged = true;
-      } else {
-        this.logged = false;
-      }
     }
   },
   beforeMount: function beforeMount() {
-    this.getCookie();
     this.$router.push({ name: 'home' });
   }
 };
@@ -632,22 +624,7 @@ var render = function() {
             _vm._v("Serasa")
           ]),
           _vm._v(" "),
-          !_vm.logged
-            ? _c(
-                "md-button",
-                {
-                  staticClass: "md-raised",
-                  on: {
-                    click: function($event) {
-                      _vm.home()
-                    }
-                  }
-                },
-                [_vm._v("Login")]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.logged
+          this.$cookie.get("token")
             ? _c(
                 "md-button",
                 {
@@ -1265,15 +1242,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
   data: function data() {
@@ -1292,7 +1260,7 @@ exports.default = {
     add: function add() {
       var _this = this;
 
-      this.$http.post('./parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(function (successCallback) {
+      this.$http.post('parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.message,
@@ -1310,8 +1278,14 @@ exports.default = {
     list: function list() {
       var _this2 = this;
 
-      this.$http.get('./parceiro').then(function (response) {
+      this.$http.get('parceiro').then(function (response) {
         _this2.parceiros = response.data;
+      }, function (response) {
+        swal({
+          title: response.statusText,
+          text: 'Erro: ' + response.status + ', ' + response.body.mensagem,
+          type: 'error'
+        });
       });
     }
   },
@@ -1340,63 +1314,6 @@ var render = function() {
             "md-tabs",
             { attrs: { "md-centered": "" } },
             [
-              _c("md-tab", { attrs: { "md-label": "Lista" } }, [
-                _c("div", { staticClass: "columns is-centered" }, [
-                  _c("table", { staticClass: "table" }, [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("ID")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("CNPJ")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Nome Fantasia")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Razao Social")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("ID Usuario")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Nome")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("E-mail")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Senha")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Status")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Usuario Parceiro ID")])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.parceiros, function(item) {
-                        return _c("tr", { key: item.id }, [
-                          _c("td", [_vm._v(_vm._s(item.id))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.cnpj))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.nome_fantasia))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.razao_social))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.usuario_id))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.nome))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.email))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.senha))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.status))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.usuario_parceiro_id))])
-                        ])
-                      })
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
               _c("md-tab", { attrs: { "md-label": "Cadastrar" } }, [
                 _c("div", { staticClass: "columns is-centered" }, [
                   _c(
@@ -1532,6 +1449,43 @@ var render = function() {
                     ],
                     1
                   )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("md-tab", { attrs: { "md-label": "Lista" } }, [
+                _c("div", { staticClass: "columns is-centered" }, [
+                  _c("table", { staticClass: "table" }, [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("CNPJ")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Nome Fantasia")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Razao Social")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Nome")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("E-mail")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.parceiros, function(item) {
+                        return _c("tr", { key: item.id }, [
+                          _c("td", [_vm._v(_vm._s(item.cnpj))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.nome_fantasia))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.razao_social))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.nome_usuario))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.email))])
+                        ])
+                      })
+                    )
+                  ])
                 ])
               ])
             ],

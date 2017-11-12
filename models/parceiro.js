@@ -6,7 +6,7 @@ module.exports = {
   list: function(callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.all('select p.parceiro_id as id, p.parceiro_cnpj as cnpj, p.parceiro_nome_fantasia as nome_fantasia, p.parceiro_razao_social as razao_social, u.usuario_id, u.usuario_nome as nome, u.usuario_email as email, u.usuario_senha as senha, u.usuario_status as status, u.usuario_parceiro_id from parceiro p inner join usuario u on p.parceiro_id = u.usuario_parceiro_id', function(err, rows) {
+    db.all('select p.parceiro_id as id, p.parceiro_cnpj as cnpj, p.parceiro_nome_fantasia as nome_fantasia, p.parceiro_razao_social as razao_social, u.usuario_id, u.usuario_nome as nome_usuario, u.usuario_email as email from parceiro p inner join usuario u on p.parceiro_id = u.usuario_parceiro_id', function(err, rows) {
       if (err) {
 	return callback(err);
       }

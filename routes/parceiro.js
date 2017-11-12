@@ -131,9 +131,23 @@ router.delete('/', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  parceiro.list(function(err, rows) {
+  if (!req.cookies.token) {
+    return res.status(401).send({mensagem: 'Usuário não logado!'});
+  }
+  
+  for (var i = 0; i < logged_users.length; i++) {
+    if (logged_users[i].user_token === req.cookies.token) {
+      break;
+    }
+  }
+
+  if (i === logged_users.length) {
+    return res.status(404).send({mensagem: 'Usuário não encontrado no sistema'});
+  }
+  
+  return parceiro.list(function(err, rows) {
     if (err) {
-      res.status(404).send(err);
+      res.status(500).send(err);
     } else {
       res.status(200).jsonp(rows);
     }
