@@ -4,7 +4,7 @@
   "description": "Serasa",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
     "hot": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "author": "Luis Castro",
@@ -24,6 +24,7 @@
     "moment": "^2.19.1",
     "sweetalert2": "^6.11.2",
     "vue": "^2.4.2",
+    "vue-cookie": "^1.1.4",
     "vue-material": "^0.7.5",
     "vue-resource": "^1.3.4",
     "vue-router": "^3.0.0"

@@ -18,7 +18,8 @@ mix.extract(['vue-material',
 	     'vue-router',
 	     'vue-resource',
 	     'moment',
-	     'sweetalert2'],
+	     'sweetalert2',
+	     'vue-cookie'],
 	    'lib/vendor.js');
 
 // Full API

@@ -1,5 +1,6 @@
 {
   "host": {
-    "root": "https://my-serasa.herokuapp.com/"
+    "roots": "https://my-serasa.herokuapp.com/",
+    "root": "http://localhost:80"
   }
 }

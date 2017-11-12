@@ -6,6 +6,7 @@ import vue_resource from 'vue-resource';
 import bulma from 'bulma';
 import swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import VueCookie from 'vue-cookie';
 
 import conf from '../conf.json';
 
@@ -18,9 +19,12 @@ vue.use(vuerouter);
 vue.use(vue_material);
 vue.use(vue_resource);
 vue.use(bulma);
+vue.use(VueCookie);
 
 vue.http.options.root = conf.host.root;
 window.swal = swal;
+window.vue = vue;
+window.vueCookie = VueCookie;
 
 const router = new vuerouter({
   base: __dirname,
