@@ -7,7 +7,7 @@
       
       <h1 class="md-title" style="flex: 1">Serasa</h1>
 
-      <md-button v-if="this.$cookie.get('token')" class="md-raised" @click="logout()">Logout</md-button>
+      <md-button v-if="token" class="md-raised" @click="logout()">Logout</md-button>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav">
@@ -16,6 +16,11 @@
 	  <h3 class="md-title">Categorias</h3>
 	</div>
       </md-toolbar>
+
+      <md-list-item @click="loadCategory('cadastro')"
+		    href="">
+	Cadastro
+      </md-list-item>
 
       <md-list-item @click="loadCategory('parceiro')"
 		    href="">
@@ -30,32 +35,36 @@
 <script>
  export default {
    data() {
-     return {}
+     return {
+       token: null
+     }
    },
    methods: {
      toggleLeftSidenav() {
        this.$refs.leftSidenav.toggle();
      },
      loadCategory(category) {
-       if (!this.$cookie.get('token')) {
+       if (category !== 'cadastro' && !window.localStorage.token) {
 	 swal({
 	   title: 'Acesso não autorizado',
 	   text: 'Usuário não logado',
 	   type: 'warning'
 	 });
+	 this.$router.push({ name: 'home' });
 	 return;
        }
        this.$refs.leftSidenav.close();
        this.$router.push({ name: category });
      },
      logout() {
-       this.$http.put('logout').then(successCallback => {
+       this.$http.put('logout', {}, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,
 	   type: 'success'
 	 });
-	 this.$cookie.delete('token');
+	 delete window.localStorage.token;
+	 this.token = null;
 	 this.$router.push({ name: 'home' });
        }, errorCallback => {
 	 swal({
@@ -67,6 +76,7 @@
      }
    },
    beforeMount() {
+     this.token = window.localStorage.token;
      this.$router.push({ name: 'home' });
    }
  }

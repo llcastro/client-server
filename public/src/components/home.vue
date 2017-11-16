@@ -26,9 +26,9 @@
 	 });
        } else {
 	 this.$http.put('login', { nome_usuario: this.username, senha: this.passwd }).then(successCallback => {
+	   window.localStorage.token = successCallback.body.token;
 	   swal({
 	     title: 'Sucesso',
-	     text: successCallback.body.mensagem,
 	     type: 'success'
 	   });
 	 }, errorCallback => {

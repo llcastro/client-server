@@ -1,25 +1,27 @@
 var express = require('express');
 var parceiro = require('../models/parceiro');
 var usuario = require('../models/usuario');
+var jwt = require('jsonwebtoken');
+var conf = require('../conf.json');
 var router = express.Router();
 
 router.post('/', function(req, res, next) {
   if (!req.body.cnpj || !req.body.nome_fantasia || !req.body.razao_social || !req.body.email || !req.body.nome_usuario || !req.body.senha) {
-    return res.status(400).send({erro: 400});
+    return res.status(400).json({ mensagem: 'erro 400' });
   }
 
   if (req.body.cnpj.length > 18 || req.body.nome_fantasia.length > 255 || req.body.razao_social.length > 255 || req.body.email.length > 255 || req.body.nome_usuario.length > 255 || req.body.senha.length > 255) {
-    return res.status(422).send({erro: 422});
+    return res.status(422).json({ mensagem: 'erro 422' });
   }
 
   function check_cnpj(callback) {
     parceiro.get_by_cnpj(req.body.cnpj, function(err, row) {
       if (err) {
-	res.status(404).send(err);
+	res.status(404).json({ mensagem: err });
 	callback(404, err);
       } else if (row.length) {
-	res.status(422).jsonp({ message: 'cnpj existente' });
-	callback(422, { message: 'cnpj existente' });
+	res.status(422).json({ mensagem: 'cnpj existente' });
+	callback(422, null);
       } else {
 	callback(200, 'ok');
       }
@@ -29,11 +31,11 @@ router.post('/', function(req, res, next) {
   function check_email(callback) {
     usuario.get_by_email(req.body.email, function(err, row) {
       if (err) {
-	res.status(404).send(err);
+	res.status(404).json({ mensagem: err });
 	callback(404, err);
       } else if (row.length) {
-	res.status(422).jsonp({ message: 'e-mail já cadastrado' });
-	callback(422, { message: 'e-mail já cadastrado' });
+	res.status(422).json({ mensagem: 'e-mail já cadastrado' });
+	callback(422, null);
       } else {
 	callback(200, 'ok');
       }
@@ -49,7 +51,7 @@ router.post('/', function(req, res, next) {
 
     parceiro.insert(params, function(err, id) {
       if (err) {
-	res.status(404).send(err);
+	res.status(404).json({ mensagem: err });
 	callback(404, err);
       } else {
 	callback(200, id);
@@ -67,7 +69,7 @@ router.post('/', function(req, res, next) {
 
     usuario.insert(params, function(err, id) {
       if (err) {
-	res.status(404).send(err);
+	res.status(404).json({ mensagem: err });
 	callback(404, err);
       } else {
 	callback(200, id);
@@ -87,7 +89,7 @@ router.post('/', function(req, res, next) {
 	      usuario_insert(id_parceiro, function(status, id_usuario) {
 		console.log(status, 'id_usuario: ' + id_usuario);
 		if (status === 200) {
-		  res.status(200).jsonp({ message: 'parceiro inserido com sucesso!, id_parceiro:' + id_parceiro + ', id_usuario:' + id_usuario });
+		  res.status(200).json({ mensagem: 'parceiro inserido com sucesso!, id_parceiro:' + id_parceiro + ', id_usuario:' + id_usuario });
 		}
 	      });
 	    }
@@ -96,60 +98,115 @@ router.post('/', function(req, res, next) {
       });
     }
   });
-
-
 });
 
 router.put('/', function(req, res, next) {
-  let params = [
-    req.body.nome,
-    req.body.cpf,
-    req.body.id
-  ];
+  if (!req.headers && !req.headers.authorization) {
+    return res.status(401).json({ mensagem: 'Usuário não logado!' });
+  }
 
-  parceiro.parceiro_update(params, function(err, changes) {
+  if (!req.body.nome_fantasia || !req.body.razao_social || !req.body.email || !req.body.senha) {
+    return res.status(400).json({ mensagem: 'erro 400'});
+  }
+
+  if (req.body.nome_fantasia.length > 255 || req.body.razao_social.length > 255 || req.body.email.length > 255 || req.body.senha.length > 255) {
+    return res.status(422).json({ mensagem: 'erro 422'});
+  }
+
+  function parceiro_update(params, callback) {
+    parceiro.update(params, function(err, changes) {
+      if (err) {
+	res.status(404).json({ mensagem: err });
+	callback(404, err);
+      } else {
+	callback(200, changes);
+      }
+    });
+  }
+
+  function usuario_update(params, callback) {
+    usuario.update(params, function(err, changes) {
+      if (err) {
+	res.status(404).json({ mensagem: err });
+	callback(404, err);
+      } else {
+	callback(200, changes);
+      }
+    });
+  }
+
+  function update_both(decode) {
+    let params = [
+      req.body.nome_fantasia,
+      req.body.razao_social,
+      decode.usuario_parceiro_id
+    ];
+    parceiro_update(params, function(status, changes) {
+      if (status === 200) {
+	params = [
+	  req.body.email,
+	  req.body.senha,
+	  decode.usuario_id
+	];
+	usuario_update(params, function(status, changes) {
+	  if (status === 200) {
+	    res.status(200).json({ mensagem: 'Parceiro atualizado com sucesso'});
+	  }
+	});
+      }
+    });
+  }
+
+  return jwt.verify(req.headers.authorization, conf.key, function(err, decode) {
     if (err) {
-      res.status(404).send(err);
+      res.status(401).json({ mensagem: 'Usuário não logado, ' + err });
     } else {
-      res.status(200).jsonp(changes);
+      update_both(decode);
     }
   });
+  
 });
 
 router.delete('/', function(req, res, next) {
-  let params = [
-    req.body.id
-  ];
+  if (!req.headers && !req.headers.authorization) {
+    return res.status(401).json({ mensagem: 'Usuário não logado!' });
+  }
 
-  parceiro.parceiro_delete(params, function(err, changes) {
+  function delete_user(decode) {
+    usuario.delete(decode.usuario_id, function(err, changes) {
+      if (err) {
+	res.status(500).json({ mensagem: 'err ' + err });
+      } else {
+	res.status(200).json({ mensagem: 'Usuário desativado com sucesso' });
+      }
+    });
+  }
+
+  return jwt.verify(req.headers.authorization, conf.key, function(err, decode) {
     if (err) {
-      res.status(404).send(err);
+      res.status(401).json({ mensagem: 'Usuário não logado, ' + err });
     } else {
-      res.status(200).jsonp(changes);
+      delete_user(decode);
     }
   });
 });
 
 router.get('/', function(req, res, next) {
-  if (!req.cookies.token) {
-    return res.status(401).send({mensagem: 'Usuário não logado!'});
-  }
-  
-  for (var i = 0; i < logged_users.length; i++) {
-    if (logged_users[i].user_token === req.cookies.token) {
-      break;
-    }
+  if (!req.headers && !req.headers.authorization) {
+    return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
-  if (i === logged_users.length) {
-    return res.status(404).send({mensagem: 'Usuário não encontrado no sistema'});
-  }
-  
-  return parceiro.list(function(err, rows) {
+  return jwt.verify(req.headers.authorization, conf.key, function(err, decode) {
     if (err) {
-      res.status(500).send(err);
+      res.status(401).json({ mensagem: 'Usuário não logado, ' + err });
     } else {
-      res.status(200).jsonp(rows);
+      parceiro.get_by_id([decode.usuario_id, decode.usuario_parceiro_id], function(err, row) {
+	if (err) {
+	  res.status(500).json({ mensagem: err });
+	} else {
+	  res.status(200).json(row);
+	}
+      });
     }
   });
 });

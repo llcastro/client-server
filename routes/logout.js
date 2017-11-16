@@ -1,19 +1,20 @@
 var express = require('express');
 var login = require('../models/login');
-var session = require('express-session');
+var jwt = require('jsonwebtoken');
+var conf = require('../conf.json');
 var router = express.Router();
 
 router.put('/', function(req, res, next) {
-  const size = logged_users.length;
-  
-  logged_users = logged_users.filter(item => {
-    return item.user_token !== req.cookies.token;
-  });
-
-  if (logged_users.length === size) {
-    res.status(401).jsonp({mensagem: 'Usuário não logado'});
+  if (req.headers && req.headers.authorization) {
+    jwt.verify(req.headers.authorization, conf.key, function(err, decode) {
+      if (err) {
+	res.status(401).json({mensagem: 'Usuário não logado, ' + err});
+      } else {
+	res.status(200).json({mensagem: 'Usuário deslogado'});
+      }
+    });
   } else {
-    res.status(200).jsonp({mensagem: 'Usuário deslogado'});
+    res.status(401).json({mensagem: 'Usuário não logado'});
   }
 });
 

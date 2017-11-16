@@ -2,14 +2,30 @@
   <div>
     <div class="columns is-centered">
       <md-tabs md-centered>
-	<md-tab md-label="Cadastrar">
+	<md-tab md-label="Meus dados">
+	  <div class="columns is-centered">
+	    <table class="table">
+	      <thead>
+		<tr>
+		  <th>Nome Fantasia</th>
+		  <th>Razao Social</th>
+		  <th>E-mail</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <td>{{ nome_fantasia }}</td>
+		  <td>{{ razao_social }}</td>
+		  <td>{{ email }}</td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</md-tab>
+
+	<md-tab md-label="Editar">
 	  <div class="columns is-centered">
 	    <div class="column is-half is-centered">
-	      <md-input-container>
-		<label>CNPJ</label>
-		<md-textarea v-model="cnpj" required></md-textarea>
-	      </md-input-container>
-	      
 	      <md-input-container>
 		<label>Nome fantasia</label>
 		<md-textarea v-model="nome_fantasia" required></md-textarea>
@@ -26,43 +42,13 @@
 	      </md-input-container>
 	      
 	      <md-input-container>
-		<label>Nome usuário</label>
-		<md-textarea v-model="nome_usuario" required></md-textarea>
-	      </md-input-container>
-	      
-	      <md-input-container>
 		<label>Senha</label>
 		<md-textarea v-model="senha" required></md-textarea>
 	      </md-input-container>
 
-	      <md-button class="md-raised md-primary" @click="add()">Add</md-button>
+	      <md-button class="md-raised md-primary" @click="edit()">Editar</md-button>
+	      <md-button class="md-raised md-primary" @click="remove()">Desativar</md-button>
 	    </div>
-	  </div>
-	</md-tab>
-
-	
-	<md-tab md-label="Lista">
-	  <div class="columns is-centered">
-	    <table class="table">
-	      <thead>
-		<tr>
-		  <th>CNPJ</th>
-		  <th>Nome Fantasia</th>
-		  <th>Razao Social</th>
-		  <th>Nome</th>
-		  <th>E-mail</th>
-		</tr>
-	      </thead>
-	      <tbody>
-		<tr v-for="item in parceiros" :key="item.id">
-		  <td>{{ item.cnpj }}</td>
-		  <td>{{ item.nome_fantasia }}</td>
-		  <td>{{ item.razao_social }}</td>
-		  <td>{{ item.nome_usuario }}</td>
-		  <td>{{ item.email }}</td>
-		</tr>
-	      </tbody>
-	    </table>
 	  </div>
 	</md-tab>
       </md-tabs>
@@ -76,35 +62,36 @@
  export default {
    data() {
      return {
-       parceiros: [],
-       cnpj: '',
        nome_fantasia: '',
        razao_social: '',
        email: '',
-       nome_usuario: '',
        senha: ''
      }
    },
    methods: {
-     add() {
-       this.$http.post('parceiro', { cnpj: this.cnpj, nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, nome_usuario: this.nome_usuario, senha: this.senha }).then(successCallback => {
+     edit() {
+       this.$http.put('parceiro', { nome_fantasia: this.nome_fantasia, razao_social: this.razao_social, email: this.email, senha: this.senha }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
-	   text: successCallback.body.message,
+	   text: successCallback.body.mensagem,
 	   type: 'success'
 	 });
-	 this.list();
+	 this.getData();
        }, errorCallback => {
 	 swal({
 	   title: errorCallback.statusText,
-	   text: 'Erro: ' + errorCallback.status,
+	   text: 'Erro: ' + errorCallback.status + ', ' + errorCallback.body.mensagem,
 	   type: 'error'
 	 });
        });
      },
-     list() {
-       this.$http.get('parceiro').then(response => {
-	 this.parceiros = response.data;
+     getData() {
+       this.$http.get('parceiro', { headers: { Authorization: window.localStorage.token }}).then(response => {
+	 if (response.data) {
+	   this.nome_fantasia = response.data.nome_fantasia ;
+	   this.razao_social = response.data.razao_social;
+	   this.email = response.data.email;
+	 }
        }, response => {
 	 swal({
 	   title: response.statusText,
@@ -112,10 +99,26 @@
 	   type: 'error'
 	 });
        });
+     },
+     remove() {
+       this.$http.delete('parceiro', { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+	 swal({
+	   title: 'Sucesso',
+	   text: successCallback.body.mensagem,
+	   type: 'success'
+	 });
+	 this.getData();
+       }, errorCallback => {
+	 swal({
+	   title: errorCallback.statusText,
+	   text: 'Erro: ' + errorCallback.status + ', ' + errorCallback.body.mensagem,
+	   type: 'error'
+	 });
+       });
      }
    },
    beforeMount() {
-     this.list();
+     this.getData();
    }
    
  }

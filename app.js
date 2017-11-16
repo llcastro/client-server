@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
-var session = require('express-session');
 
 var index = require('./routes/index');
 var parceiro = require('./routes/parceiro');
@@ -30,7 +29,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-Width, Content-Type, Accept");
   next();
 });
-app.use(session({secret: 'shhhhhhhhh'}));
 
 app.use('/', index);
 app.use('/parceiro', parceiro);
@@ -58,7 +56,5 @@ app.use(function(err, req, res, next) {
 app.listen(process.env.PORT || 80, function() {
   console.log('server started');
 });
-
-global.logged_users = [];
 
 module.exports = app;

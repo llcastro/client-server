@@ -3,6 +3,19 @@ const sqlite3 = require('sqlite3').verbose();
 const db_path = path.resolve(__dirname, 'db/serasa.db');
 
 module.exports = {
+  update: function(params, callback) {
+    let db = new sqlite3.Database(db_path);
+
+    db.run('update usuario set usuario_email = ?, usuario_senha = ? where usuario_id = ?', params, function(err) {
+      if (err) {
+	return callback(err);
+      } else {
+	return callback(null, this.changes);
+      }
+    });
+
+    db.close();
+  },
   list: function(callback) {
     let db = new sqlite3.Database(db_path);
 
@@ -23,6 +36,20 @@ module.exports = {
 	return callback(err);
       } else {
 	return callback(null, this.lastID);
+      }
+    });
+
+    db.close();
+  },
+  delete: function(id, callback) {
+    // just inactivate user
+    let db = new sqlite3.Database(db_path);
+
+    db.run('update usuario set usuario_status = 0 where usuario_id = ?', [id], function(err) {
+      if (err) {
+	return callback(err);
+      } else {
+	return callback(null, this.changes);
       }
     });
 

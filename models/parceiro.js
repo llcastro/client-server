@@ -3,14 +3,14 @@ const sqlite3 = require('sqlite3').verbose();
 const db_path = path.resolve(__dirname, 'db/serasa.db');
 
 module.exports = {
-  list: function(callback) {
+  get_by_id: function(params, callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.all('select p.parceiro_id as id, p.parceiro_cnpj as cnpj, p.parceiro_nome_fantasia as nome_fantasia, p.parceiro_razao_social as razao_social, u.usuario_id, u.usuario_nome as nome_usuario, u.usuario_email as email from parceiro p inner join usuario u on p.parceiro_id = u.usuario_parceiro_id', function(err, rows) {
+    db.all('select p.parceiro_cnpj as cnpj, p.parceiro_nome_fantasia as nome_fantasia, p.parceiro_razao_social as razao_social, u.usuario_nome as nome_usuario, u.usuario_email as email from parceiro p inner join usuario u on p.parceiro_id = u.usuario_parceiro_id where u.usuario_id = ? and u.usuario_parceiro_id = ? and u.usuario_status = 1', params, function(err, row) {
       if (err) {
 	return callback(err);
       }
-      return callback(null, rows);
+      return callback(null, row[0]);
     });
 
     db.close();
@@ -31,7 +31,7 @@ module.exports = {
   update: function(params, callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.run('update cliente set cliente_nome = ?, cliente_cpf = ? where cliente_id = ?', params, function(err) {
+    db.run('update parceiro set parceiro_nome_fantasia = ?, parceiro_razao_social = ? where parceiro_id = ?', params, function(err) {
       if (err) {
 	return callback(err);
       } else {
@@ -41,10 +41,10 @@ module.exports = {
 
     db.close();
   },
-  delete: function(params, callback) {
+  delete: function(id, callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.run('delete from cliente where cliente_id = ?', params, function(err) {
+    db.run('', [id], function(err) {
       if (err) {
 	return callback(err);
       } else {
