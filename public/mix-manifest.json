@@ -1,11 +1,5 @@
 {
     "/lib/vendor.js": "/lib/vendor.js",
     "/lib/app.js": "/lib/app.js",
-    "/lib/manifest.js": "/lib/manifest.js",
-    "/1.9d139282b125bf25a40f.hot-update.js": "/1.9d139282b125bf25a40f.hot-update.js",
-    "/1.b7a4d56d7eec23885a9b.hot-update.js": "/1.b7a4d56d7eec23885a9b.hot-update.js",
-    "/1.520548ecfb93a7cb4e49.hot-update.js": "/1.520548ecfb93a7cb4e49.hot-update.js",
-    "/1.62909b8ab1ed7292c259.hot-update.js": "/1.62909b8ab1ed7292c259.hot-update.js",
-    "/1.c6fb09f8045f31970927.hot-update.js": "/1.c6fb09f8045f31970927.hot-update.js",
-    "/1.9ed2ac7a95a10fb553d4.hot-update.js": "/1.9ed2ac7a95a10fb553d4.hot-update.js"
+    "/lib/manifest.js": "/lib/manifest.js"
 }

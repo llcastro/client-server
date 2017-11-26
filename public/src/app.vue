@@ -17,14 +17,16 @@
 	</div>
       </md-toolbar>
 
-      <md-list-item @click="loadCategory('cadastro')"
-		    href="">
+      <md-list-item @click="loadCategory('cadastro')">
 	Cadastro
       </md-list-item>
 
-      <md-list-item @click="loadCategory('parceiro')"
-		    href="">
+      <md-list-item @click="loadCategory('parceiro')">
 	Parceiro
+      </md-list-item>
+
+      <md-list-item @click="loadCategory('cliente')">
+	Cliente
       </md-list-item>
     </md-sidenav>
     
