@@ -150,7 +150,7 @@ router.delete('/:id_titulo', function(req, res, next) {
   }
 
   function delete_titulo(decode) {
-    cliente.delete(req.params.id_titulo, function(err, changes) {
+    titulo.delete(req.params.id_titulo, function(err, changes) {
       if (err) {
 	res.status(500).json({ mensagem: 'err ' + err });
       } else {
