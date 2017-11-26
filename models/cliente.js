@@ -65,5 +65,16 @@ module.exports = {
     });
 
     db.close();
+  },
+  get_by_id: function(id, callback) {
+    let db = new sqlite3.Database(db_path);
+    db.all('select cliente_id, cliente_nome, cliente_cpf from cliente where cliente_id = ?', [id], function(err, row) {
+      if (err) {
+	return callback(err);
+      }
+      return callback(null, row[0]);
+    });
+
+    db.close();
   }
 };

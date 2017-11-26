@@ -28,6 +28,10 @@
       <md-list-item @click="loadCategory('cliente')">
 	Cliente
       </md-list-item>
+
+      <md-list-item @click="loadCategory('titulo')">
+	Título
+      </md-list-item>
     </md-sidenav>
     
     <router-view></router-view>

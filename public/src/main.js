@@ -15,6 +15,7 @@ import cadastro from './components/cadastro.vue';
 import tarefas from './components/tarefas.vue';
 import parceiro from './components/parceiro';
 import cliente from './components/cliente';
+import titulo from './components/titulo';
 
 vue.use(vuerouter);
 vue.use(vue_material);
@@ -51,6 +52,11 @@ const router = new vuerouter({
       path: '/cliente',
       name: 'cliente',
       component: cliente
+    },
+    {
+      path: '/titulo',
+      name: 'titulo',
+      component: titulo
     }
   ]
 });
