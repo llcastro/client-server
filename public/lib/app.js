@@ -1672,18 +1672,18 @@ exports.default = {
       nome_cliente: '',
       cpf_cliente: '',
       id_cliente: '',
-      id_titulo_tipo: '',
+      id_parceiro: '',
       valor: '',
       data_emissao: '',
       data_pagamento: '',
       situacao: '',
-      identificador: ''
+      descricao: ''
     };
   },
 
   methods: {
     add_titulo: function add_titulo() {
-      this.$http.post('titulo', { id_cliente: this.id_cliente, id_titulo_tipo: this.id_titulo_tipo, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, identificador: this.identificador }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
+      this.$http.post('titulo', { id_cliente: this.id_cliente, id_parceiro: this.id_parceiro, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, descricao: this.descricao }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.mensagem,
@@ -1975,16 +1975,16 @@ var render = function() {
                       _c(
                         "md-input-container",
                         [
-                          _c("label", [_vm._v("ID Titulo Tipo")]),
+                          _c("label", [_vm._v("ID Parceiro")]),
                           _vm._v(" "),
                           _c("md-textarea", {
                             attrs: { required: "" },
                             model: {
-                              value: _vm.id_titulo_tipo,
+                              value: _vm.id_parceiro,
                               callback: function($$v) {
-                                _vm.id_titulo_tipo = $$v
+                                _vm.id_parceiro = $$v
                               },
-                              expression: "id_titulo_tipo"
+                              expression: "id_parceiro"
                             }
                           })
                         ],
@@ -2035,7 +2035,6 @@ var render = function() {
                           _c("label", [_vm._v("Data pagamento")]),
                           _vm._v(" "),
                           _c("md-textarea", {
-                            attrs: { required: "" },
                             model: {
                               value: _vm.data_pagamento,
                               callback: function($$v) {
@@ -2070,16 +2069,16 @@ var render = function() {
                       _c(
                         "md-input-container",
                         [
-                          _c("label", [_vm._v("Identificador")]),
+                          _c("label", [_vm._v("Descrição")]),
                           _vm._v(" "),
                           _c("md-textarea", {
                             attrs: { required: "" },
                             model: {
-                              value: _vm.identificador,
+                              value: _vm.descricao,
                               callback: function($$v) {
-                                _vm.identificador = $$v
+                                _vm.descricao = $$v
                               },
-                              expression: "identificador"
+                              expression: "descricao"
                             }
                           })
                         ],
@@ -2849,7 +2848,7 @@ exports.default = {
     save: function save() {
       var _this = this;
 
-      this.$http.put('cliente', { id_cliente: this.id, nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
+      this.$http.put('cliente/' + this.id, { nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.mensagem,
@@ -3228,12 +3227,12 @@ exports.default = {
       titles: [],
       id_titulo: '',
       id_cliente: '',
-      id_titulo_tipo: '',
+      id_parceiro: '',
       valor: '',
       data_emissao: '',
       data_pagamento: '',
       situacao: '',
-      identificador: ''
+      descricao: ''
     };
   },
 
@@ -3241,7 +3240,7 @@ exports.default = {
     save: function save() {
       var _this = this;
 
-      this.$http.put('titulo', { id_titulo: this.id_titulo, id_cliente: this.id_cliente, id_titulo_tipo: this.id_titulo_tipo, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, identificador: this.identificador }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
+      this.$http.put('titulo/' + this.id_titulo, { valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, descricao: this.descricao }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.mensagem,
@@ -3256,15 +3255,15 @@ exports.default = {
         });
       });
     },
-    edit: function edit(id_titulo, id_cliente, id_titulo_tipo, valor, data_emissao, data_pagamento, situacao, identificador) {
+    edit: function edit(id_titulo, id_cliente, id_parceiro, valor, data_emissao, data_pagamento, situacao, descricao) {
       this.id_titulo = id_titulo;
       this.id_cliente = id_cliente;
-      this.id_titulo_tipo = id_titulo_tipo;
+      this.id_parceiro = id_parceiro;
       this.valor = valor;
       this.data_emissao = data_emissao;
       this.data_pagamento = data_pagamento;
       this.situacao = situacao;
-      this.identificador = identificador;
+      this.descricao = descricao;
     },
     getData: function getData() {
       var _this2 = this;
@@ -3333,7 +3332,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("th", [_vm._v("ID cliente")]),
                         _vm._v(" "),
-                        _c("th", [_vm._v("ID titulo tipo")]),
+                        _c("th", [_vm._v("ID parceiro")]),
                         _vm._v(" "),
                         _c("th", [_vm._v("Valor")]),
                         _vm._v(" "),
@@ -3341,9 +3340,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("th", [_vm._v("Data pagamento")]),
                         _vm._v(" "),
-                        _c("th", [_vm._v("Situacao")]),
+                        _c("th", [_vm._v("Situação")]),
                         _vm._v(" "),
-                        _c("th", [_vm._v("Identificador")]),
+                        _c("th", [_vm._v("Descrição")]),
                         _vm._v(" "),
                         _c("th", [_vm._v("Editar")]),
                         _vm._v(" "),
@@ -3359,7 +3358,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.id_cliente))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.id_titulo_tipo))]),
+                          _c("td", [_vm._v(_vm._s(item.id_parceiro))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.valor))]),
                           _vm._v(" "),
@@ -3369,7 +3368,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.situacao))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.identificador))]),
+                          _c("td", [_vm._v(_vm._s(item.descricao))]),
                           _vm._v(" "),
                           _c("td", [
                             _c(
@@ -3380,12 +3379,12 @@ var render = function() {
                                     _vm.edit(
                                       item.id_titulo,
                                       item.id_cliente,
-                                      item.id_titulo_tipo,
+                                      item.id_parceiro,
                                       item.valor,
                                       item.data_emissao,
                                       item.data_pagamento,
                                       item.situacao,
-                                      item.identificador
+                                      item.descricao
                                     )
                                   }
                                 }
@@ -3442,16 +3441,16 @@ var render = function() {
                       _c(
                         "md-input-container",
                         [
-                          _c("label", [_vm._v("ID Titulo Tipo")]),
+                          _c("label", [_vm._v("ID parceiro")]),
                           _vm._v(" "),
                           _c("md-textarea", {
                             attrs: { required: "" },
                             model: {
-                              value: _vm.id_titulo_tipo,
+                              value: _vm.id_parceiro,
                               callback: function($$v) {
-                                _vm.id_titulo_tipo = $$v
+                                _vm.id_parceiro = $$v
                               },
-                              expression: "id_titulo_tipo"
+                              expression: "id_parceiro"
                             }
                           })
                         ],
@@ -3502,7 +3501,6 @@ var render = function() {
                           _c("label", [_vm._v("Data pagamento")]),
                           _vm._v(" "),
                           _c("md-textarea", {
-                            attrs: { required: "" },
                             model: {
                               value: _vm.data_pagamento,
                               callback: function($$v) {
@@ -3537,16 +3535,16 @@ var render = function() {
                       _c(
                         "md-input-container",
                         [
-                          _c("label", [_vm._v("Identificador")]),
+                          _c("label", [_vm._v("Descrição")]),
                           _vm._v(" "),
                           _c("md-textarea", {
                             attrs: { required: "" },
                             model: {
-                              value: _vm.identificador,
+                              value: _vm.descricao,
                               callback: function($$v) {
-                                _vm.identificador = $$v
+                                _vm.descricao = $$v
                               },
-                              expression: "identificador"
+                              expression: "descricao"
                             }
                           })
                         ],

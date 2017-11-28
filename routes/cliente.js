@@ -70,12 +70,12 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.put('/', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
   if (!req.headers && !req.headers.authorization) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
-  if (!req.body.nome || !req.body.cpf || !req.body.id_cliente) {
+  if (!req.body.nome || !req.body.cpf || !req.params.id) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 
@@ -87,7 +87,7 @@ router.put('/', function(req, res, next) {
     let params = [
       req.body.nome,
       req.body.cpf,
-      req.body.id_cliente
+      req.params.id
     ];
     cliente.update(params, function(err, changes) {
       if (err) {
@@ -110,13 +110,13 @@ router.put('/', function(req, res, next) {
   
 });
 
-router.delete('/:id_cliente', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
   if (!req.headers && !req.headers.authorization) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
   function delete_client(decode) {
-    cliente.delete(req.params.id_cliente, function(err, changes) {
+    cliente.delete(req.params.id, function(err, changes) {
       if (err) {
 	res.status(500).json({ mensagem: 'err ' + err });
       } else {

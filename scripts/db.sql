@@ -34,15 +34,13 @@ create table if not exists usuario(
 
 create table if not exists titulo(
        titulo_id integer primary key,
-       titulo_valor double not null,
-       titulo_data_pagamento date not null,
-       titulo_identificador integer not null,
+       titulo_valor double,
+       titulo_data_pagamento date,
        titulo_data_emissao date,
        titulo_situacao integer,
-       titulo_tipo_id integer not null,
        titulo_cliente_id integer not null,
        titulo_parceiro_id integer not null,
-       foreign key (titulo_tipo_id) references titulo_tipo (titulo_tipo_id) on update cascade on delete cascade,
+       titulo_descricao varchar(255),
        foreign key (titulo_cliente_id) references cliente (cliente_id) on update cascade on delete cascade,
        foreign key (titulo_parceiro_id) references parceiro (parceiro_id) on update cascade on delete cascade
 );

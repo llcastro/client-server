@@ -65,8 +65,8 @@
 	      </md-input-container>
 
 	      <md-input-container>
-		<label>ID Titulo Tipo</label>
-		<md-textarea v-model="id_titulo_tipo" required></md-textarea>
+		<label>ID Parceiro</label>
+		<md-textarea v-model="id_parceiro" required></md-textarea>
 	      </md-input-container>
 
 	      <md-input-container>
@@ -81,7 +81,7 @@
 
 	      <md-input-container>
 		<label>Data pagamento</label>
-		<md-textarea v-model="data_pagamento" required></md-textarea>
+		<md-textarea v-model="data_pagamento"></md-textarea>
 	      </md-input-container>
 
 	      <md-input-container>
@@ -90,8 +90,8 @@
 	      </md-input-container>
 
 	      <md-input-container>
-		<label>Identificador</label>
-		<md-textarea v-model="identificador" required></md-textarea>
+		<label>Descrição</label>
+		<md-textarea v-model="descricao" required></md-textarea>
 	      </md-input-container>
 
 	      <md-button class="md-raised md-primary" @click="add_titulo()">Add</md-button>
@@ -118,17 +118,17 @@
        nome_cliente: '',
        cpf_cliente: '',
        id_cliente: '',
-       id_titulo_tipo: '',
+       id_parceiro: '',
        valor: '',
        data_emissao: '',
        data_pagamento: '',
        situacao: '',
-       identificador: ''
+       descricao: ''
      }
    },
    methods: {
      add_titulo() {
-       this.$http.post('titulo', { id_cliente: this.id_cliente, id_titulo_tipo: this.id_titulo_tipo, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, identificador: this.identificador }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+       this.$http.post('titulo', { id_cliente: this.id_cliente, id_parceiro: this.id_parceiro, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, descricao: this.descricao }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,

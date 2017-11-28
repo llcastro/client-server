@@ -9,12 +9,12 @@
 		<tr>
 		  <th>ID titulo</th>
 		  <th>ID cliente</th>
-		  <th>ID titulo tipo</th>
+		  <th>ID parceiro</th>
 		  <th>Valor</th>
 		  <th>Data emissão</th>
 		  <th>Data pagamento</th>
-		  <th>Situacao</th>
-		  <th>Identificador</th>
+		  <th>Situação</th>
+		  <th>Descrição</th>
 		  <th>Editar</th>
 		  <th>Remover</th>
 		</tr>
@@ -23,13 +23,13 @@
 		<tr v-for="item in titles">
 		  <td>{{ item.id_titulo }}</td>
 		  <td>{{ item.id_cliente }}</td>
-		  <td>{{ item.id_titulo_tipo }}</td>
+		  <td>{{ item.id_parceiro }}</td>
 		  <td>{{ item.valor }}</td>
 		  <td>{{ item.data_emissao }}</td>
 		  <td>{{ item.data_pagamento }}</td>
 		  <td>{{ item.situacao }}</td>
-		  <td>{{ item.identificador }}</td>
-		  <td><button @click="edit(item.id_titulo, item.id_cliente, item.id_titulo_tipo, item.valor, item.data_emissao, item.data_pagamento, item.situacao, item.identificador)">Editar</button></td>
+		  <td>{{ item.descricao }}</td>
+		  <td><button @click="edit(item.id_titulo, item.id_cliente, item.id_parceiro, item.valor, item.data_emissao, item.data_pagamento, item.situacao, item.descricao)">Editar</button></td>
 		  <td><button @click="remove(item.id_titulo)">Remover</button></td>
 		</tr>
 	      </tbody>
@@ -46,8 +46,8 @@
 	      </md-input-container>
 
 	      <md-input-container>
-		<label>ID Titulo Tipo</label>
-		<md-textarea v-model="id_titulo_tipo" required></md-textarea>
+		<label>ID parceiro</label>
+		<md-textarea v-model="id_parceiro" required></md-textarea>
 	      </md-input-container>
 
 	      <md-input-container>
@@ -62,7 +62,7 @@
 
 	      <md-input-container>
 		<label>Data pagamento</label>
-		<md-textarea v-model="data_pagamento" required></md-textarea>
+		<md-textarea v-model="data_pagamento"></md-textarea>
 	      </md-input-container>
 
 	      <md-input-container>
@@ -71,8 +71,8 @@
 	      </md-input-container>
 
 	      <md-input-container>
-		<label>Identificador</label>
-		<md-textarea v-model="identificador" required></md-textarea>
+		<label>Descrição</label>
+		<md-textarea v-model="descricao" required></md-textarea>
 	      </md-input-container>
 
 	      <md-button class="md-raised md-primary" @click="save()">Salvar</md-button>
@@ -93,17 +93,17 @@
        titles: [],
        id_titulo: '',
        id_cliente: '',
-       id_titulo_tipo: '',
+       id_parceiro: '',
        valor: '',
        data_emissao: '',
        data_pagamento: '',
        situacao: '',
-       identificador: ''
+       descricao: ''
      }
    },
    methods: {
      save() {
-       this.$http.put('titulo', { id_titulo: this.id_titulo, id_cliente: this.id_cliente, id_titulo_tipo: this.id_titulo_tipo, valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, identificador: this.identificador }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+       this.$http.put('titulo/' + this.id_titulo, { valor: this.valor, data_emissao: this.data_emissao, data_pagamento: this.data_pagamento, situacao: this.situacao, descricao: this.descricao }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,
@@ -118,15 +118,15 @@
 	 });
        });
      },
-     edit(id_titulo, id_cliente, id_titulo_tipo, valor, data_emissao, data_pagamento, situacao, identificador) {
+     edit(id_titulo, id_cliente, id_parceiro, valor, data_emissao, data_pagamento, situacao, descricao) {
        this.id_titulo = id_titulo;
        this.id_cliente = id_cliente;
-       this.id_titulo_tipo = id_titulo_tipo;
+       this.id_parceiro = id_parceiro;
        this.valor = valor;
        this.data_emissao = data_emissao;
        this.data_pagamento = data_pagamento;
        this.situacao = situacao;
-       this.identificador = identificador;
+       this.descricao = descricao;
      },
      getData() {
        this.$http.get('titulo', { headers: { Authorization: window.localStorage.token }}).then(response => {

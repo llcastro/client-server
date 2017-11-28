@@ -6,7 +6,7 @@ module.exports = {
   get_all: function(callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.all('select titulo_id as id_titulo, titulo_valor as valor, titulo_data_pagamento as data_pagamento, titulo_data_emissao as data_emissao, titulo_situacao as situacao, titulo_tipo_id as id_titulo_tipo, titulo_cliente_id as id_cliente, titulo_identificador as identificador from titulo', function(err, rows) {
+    db.all('select titulo_id as id_titulo, titulo_valor as valor, titulo_data_pagamento as data_pagamento, titulo_data_emissao as data_emissao, titulo_situacao as situacao, titulo_cliente_id as id_cliente, titulo_parceiro_id as id_parceiro, titulo_descricao as descricao from titulo', function(err, rows) {
       if (err) {
 	return callback(err);
       }
@@ -18,7 +18,7 @@ module.exports = {
   insert: function(params, callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.run('insert into titulo(titulo_valor, titulo_data_pagamento, titulo_identificador, titulo_data_emissao, titulo_situacao, titulo_tipo_id, titulo_cliente_id, titulo_parceiro_id) values(?, ?, ?, ?, ?, ?, ?, ?)', params, function(err) {
+    db.run('insert into titulo(titulo_valor, titulo_data_pagamento, titulo_data_emissao, titulo_situacao, titulo_cliente_id, titulo_descricao, titulo_parceiro_id) values(?, ?, ?, ?, ?, ?, ?)', params, function(err) {
       if (err) {
 	return callback(err);
       } else {
@@ -32,7 +32,7 @@ module.exports = {
     let db = new sqlite3.Database(db_path);
     console.log(params);
 
-    db.run('update titulo set titulo_valor = ?, titulo_data_pagamento = ?, titulo_identificador = ?, titulo_data_emissao = ?, titulo_situacao = ?, titulo_tipo_id = ?, titulo_cliente_id = ?, titulo_parceiro_id = ? where titulo_id = ?', params, function(err) {
+    db.run('update titulo set titulo_valor = ?, titulo_data_pagamento = ?, titulo_descricao = ?, titulo_data_emissao = ?, titulo_situacao = ? where titulo_id = ?', params, function(err) {
       if (err) {
 	return callback(err);
       } else {

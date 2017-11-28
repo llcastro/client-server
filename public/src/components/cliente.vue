@@ -63,7 +63,7 @@
    },
    methods: {
      save() {
-       this.$http.put('cliente', { id_cliente: this.id, nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+       this.$http.put('cliente/' + this.id, { nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,

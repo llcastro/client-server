@@ -12,11 +12,11 @@ router.post('/', function(req, res, next) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
   
-  if (!req.body.id_cliente || !req.body.id_titulo_tipo || !req.body.valor || !req.body.data_emissao || !req.body.data_pagamento || !req.body.situacao || !req.body.identificador) {
+  if (!req.body.id_cliente || !req.body.id_parceiro || !req.body.valor || !req.body.data_emissao || !req.body.situacao || !req.body.descricao) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 
-  if (false) {
+  if (req.body.valor.length > 20 || req.body.descricao.length > 255) {
     return res.status(422).json({ mensagem: 'erro 422' });
   }
 
@@ -34,29 +34,14 @@ router.post('/', function(req, res, next) {
     });
   }
 
-  function check_titulo_tipo(callback) {
-    titulo_tipo.get_by_id(req.body.id_titulo_tipo, function(err, row) {
-      if (err) {
-	res.status(500).json({ mensagem: err });
-	callback(500, err);
-      } else if (row) {
-	callback(200, row);
-      } else {
-	res.status(422).json({ mensagem: 'Titulo tipo não existe' });
-	callback(422, null);
-      }
-    });
-  }
-
   function titulo_insert(id_parceiro, callback) {
     let params = [
       req.body.valor,
       req.body.data_pagamento,
-      req.body.identificador,
       req.body.data_emissao,
       req.body.situacao,
-      req.body.id_titulo_tipo,
       req.body.id_cliente,
+      req.body.descricao,
       id_parceiro
     ];
 
@@ -74,14 +59,10 @@ router.post('/', function(req, res, next) {
     check_client_id(function(status, message) {
       console.log(status, message);
       if (status === 200) {
-	check_titulo_tipo(function(status, message) {
+	console.log(id_parceiro);
+	titulo_insert(id_parceiro, function(status, id_titulo) {
 	  if (status === 200) {
-	    console.log(id_parceiro);
-	    titulo_insert(id_parceiro, function(status, id_titulo) {
-	      if (status === 200) {
-		res.status(200).json({ mensagem: 'titulo inserido com sucesso!, id_titulo: ' + id_titulo });
-	      }
-	    });
+	    res.status(200).json({ mensagem: 'titulo inserido com sucesso!, id_titulo: ' + id_titulo });
 	  }
 	});
       }
@@ -97,16 +78,16 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.put('/', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
   if (!req.headers && !req.headers.authorization) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
-  if (!req.body.valor || !req.body.data_pagamento || !req.body.identificador || !req.body.data_emissao || !req.body.situacao || !req.body.id_titulo_tipo || !req.body.id_cliente || !req.body.id_titulo) {
+  if (!req.body.valor || !req.body.descricao || !req.body.data_emissao || !req.body.situacao || !req.params.id) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 
-  if (false) {
+  if (req.body.valor.length > 20 || req.body.descricao.length > 255) {
     return res.status(422).json({ mensagem: 'erro 422' });
   }
 
@@ -114,13 +95,10 @@ router.put('/', function(req, res, next) {
     let params = [
       req.body.valor,
       req.body.data_pagamento,
-      req.body.identificador,
+      req.body.descricao,
       req.body.data_emissao,
       req.body.situacao,
-      req.body.id_titulo_tipo,
-      req.body.id_cliente,
-      id_parceiro,
-      req.body.id_titulo
+      req.params.id
     ];
     titulo.update(params, function(err, changes) {
       console.log(err);
@@ -144,13 +122,13 @@ router.put('/', function(req, res, next) {
   
 });
 
-router.delete('/:id_titulo', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
   if (!req.headers && !req.headers.authorization) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
   function delete_titulo(decode) {
-    titulo.delete(req.params.id_titulo, function(err, changes) {
+    titulo.delete(req.params.id, function(err, changes) {
       if (err) {
 	res.status(500).json({ mensagem: 'err ' + err });
       } else {
