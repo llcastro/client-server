@@ -17,9 +17,9 @@
 	      <tbody>
 		<tr v-for="item in clients">
 		  <td>{{ item.id_cliente }}</td>
-		  <td>{{ item.nome }}</td>
+		  <td>{{ item.nome_cliente }}</td>
 		  <td>{{ item.cpf }}</td>
-		  <td><button @click="edit(item.id_cliente, item.nome, item.cpf)">Editar</button></td>
+		  <td><button @click="edit(item.id_cliente, item.nome_cliente, item.cpf)">Editar</button></td>
 		  <td><button @click="remove(item.id_cliente)">Remover</button></td>
 		</tr>
 	      </tbody>
@@ -32,7 +32,7 @@
 	    <div class="column is-half is-centered">
 	      <md-input-container>
 		<label>Nome</label>
-		<md-textarea v-model="nome" required></md-textarea>
+		<md-textarea v-model="nome_cliente" required></md-textarea>
 	      </md-input-container>
 	      
 	      <md-input-container>
@@ -56,14 +56,14 @@
    data() {
      return {
        clients: [],
-       nome: '',
+       nome_cliente: '',
        cpf: '',
        id: ''
      }
    },
    methods: {
      save() {
-       this.$http.put('cliente/' + this.id, { nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+       this.$http.put('cliente/' + this.id, { nome_cliente: this.nome_cliente, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,
@@ -78,9 +78,9 @@
 	 });
        });
      },
-     edit(id_cliente, nome, cpf) {
+     edit(id_cliente, nome_cliente, cpf) {
        this.id = id_cliente;
-       this.nome = nome;
+       this.nome_cliente = nome_cliente;
        this.cpf = cpf
      },
      getData() {

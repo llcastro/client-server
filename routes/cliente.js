@@ -9,11 +9,11 @@ router.post('/', function(req, res, next) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
   
-  if (!req.body.nome || !req.body.cpf) {
+  if (!req.body.nome_cliente || !req.body.cpf) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 
-  if (req.body.cpf.length > 15 || req.body.nome.length > 255) {
+  if (req.body.cpf.length > 15 || req.body.nome_cliente.length > 255) {
     return res.status(422).json({ mensagem: 'erro 422' });
   }
 
@@ -34,7 +34,7 @@ router.post('/', function(req, res, next) {
   function cliente_insert(callback) {
     let params = [
       req.body.cpf,
-      req.body.nome
+      req.body.nome_cliente
     ];
 
     cliente.insert(params, function(err, id) {
@@ -75,17 +75,17 @@ router.put('/:id', function(req, res, next) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
 
-  if (!req.body.nome || !req.body.cpf || !req.params.id) {
+  if (!req.body.nome_cliente || !req.body.cpf || !req.params.id) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 
-  if (req.body.cpf.length > 15 || req.body.nome.length > 255) {
+  if (req.body.cpf.length > 15 || req.body.nome_cliente.length > 255) {
     return res.status(422).json({ mensagem: 'erro 422' });
   }
 
   function update_client() {
     let params = [
-      req.body.nome,
+      req.body.nome_cliente,
       req.body.cpf,
       req.params.id
     ];

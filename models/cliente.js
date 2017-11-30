@@ -6,7 +6,7 @@ module.exports = {
   get_all: function(callback) {
     let db = new sqlite3.Database(db_path);
 
-    db.all('select cliente_id as id_cliente, cliente_nome as nome, cliente_cpf as cpf from cliente', function(err, rows) {
+    db.all('select cliente_id as id_cliente, cliente_nome as nome_cliente, cliente_cpf as cpf from cliente', function(err, rows) {
       if (err) {
 	return callback(err);
       }

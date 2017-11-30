@@ -158,7 +158,7 @@
        });
      },
      add_cliente() {
-       this.$http.post('cliente', { cpf: this.cpf_cliente, nome: this.nome_cliente }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
+       this.$http.post('cliente', { cpf: this.cpf_cliente, nome_cliente: this.nome_cliente }, { headers: { Authorization: window.localStorage.token }}).then(successCallback => {
 	 swal({
 	   title: 'Sucesso',
 	   text: successCallback.body.mensagem,

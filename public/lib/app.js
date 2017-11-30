@@ -1713,7 +1713,7 @@ exports.default = {
       });
     },
     add_cliente: function add_cliente() {
-      this.$http.post('cliente', { cpf: this.cpf_cliente, nome: this.nome_cliente }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
+      this.$http.post('cliente', { cpf: this.cpf_cliente, nome_cliente: this.nome_cliente }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.mensagem,
@@ -2838,7 +2838,7 @@ exports.default = {
   data: function data() {
     return {
       clients: [],
-      nome: '',
+      nome_cliente: '',
       cpf: '',
       id: ''
     };
@@ -2848,7 +2848,7 @@ exports.default = {
     save: function save() {
       var _this = this;
 
-      this.$http.put('cliente/' + this.id, { nome: this.nome, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
+      this.$http.put('cliente/' + this.id, { nome_cliente: this.nome_cliente, cpf: this.cpf }, { headers: { Authorization: window.localStorage.token } }).then(function (successCallback) {
         swal({
           title: 'Sucesso',
           text: successCallback.body.mensagem,
@@ -2863,9 +2863,9 @@ exports.default = {
         });
       });
     },
-    edit: function edit(id_cliente, nome, cpf) {
+    edit: function edit(id_cliente, nome_cliente, cpf) {
       this.id = id_cliente;
-      this.nome = nome;
+      this.nome_cliente = nome_cliente;
       this.cpf = cpf;
     },
     getData: function getData() {
@@ -2949,7 +2949,7 @@ var render = function() {
                         return _c("tr", [
                           _c("td", [_vm._v(_vm._s(item.id_cliente))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.nome))]),
+                          _c("td", [_vm._v(_vm._s(item.nome_cliente))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.cpf))]),
                           _vm._v(" "),
@@ -2961,7 +2961,7 @@ var render = function() {
                                   click: function($event) {
                                     _vm.edit(
                                       item.id_cliente,
-                                      item.nome,
+                                      item.nome_cliente,
                                       item.cpf
                                     )
                                   }
@@ -3005,11 +3005,11 @@ var render = function() {
                           _c("md-textarea", {
                             attrs: { required: "" },
                             model: {
-                              value: _vm.nome,
+                              value: _vm.nome_cliente,
                               callback: function($$v) {
-                                _vm.nome = $$v
+                                _vm.nome_cliente = $$v
                               },
-                              expression: "nome"
+                              expression: "nome_cliente"
                             }
                           })
                         ],
