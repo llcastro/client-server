@@ -19,6 +19,8 @@ router.get('/cliente/:cpf', function(req, res, next) {
     consulta.get_id_client_by_cpf(req.params.cpf, function(err, row) {
       if (err) {
 	res.status(500).json({ mensagem: err });
+      } else if (!row.length) {
+	res.status(200).json([{}]);
       } else {
 	consulta.get_titles_by_id_client(row[0].id_cliente, function(err, rows) {
 	  if (err) {
@@ -48,6 +50,8 @@ router.get('/parceiro/:cpf', function(req, res, next) {
 	consulta.get_id_client_by_cpf(req.params.cpf, function(err, row) {
 	  if (err) {
 	    res.status(500).json({ mensagem: err });
+	  } else if (!row.length) {
+	    res.status(200).json([{}]);
 	  } else {
 	    consulta.get_titles_by_id_client_partner(row[0].id_cliente, function(err, rows) {
 	      if (err) {
