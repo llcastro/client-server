@@ -745,6 +745,10 @@ var _titulo = __webpack_require__(160);
 
 var _titulo2 = _interopRequireDefault(_titulo);
 
+var _consulta = __webpack_require__(166);
+
+var _consulta2 = _interopRequireDefault(_consulta);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueRouter2.default);
@@ -781,6 +785,10 @@ var router = new _vueRouter2.default({
     path: '/titulo',
     name: 'titulo',
     component: _titulo2.default
+  }, {
+    path: '/consulta',
+    name: 'consulta',
+    component: _consulta2.default
   }]
 });
 
@@ -1030,7 +1038,7 @@ exports.push([module.i, "body.swal2-shown{overflow-y:hidden}body.swal2-iosfix{po
 /* 141 */
 /***/ (function(module, exports) {
 
-module.exports = {"host":{"roots":"http://localhost:80","root":"https://my-serasa.herokuapp.com/"}}
+module.exports = {"host":{"root":"https://my-serasa.herokuapp.com/","roots":"http://localhost:80"}}
 
 /***/ }),
 /* 142 */
@@ -1130,6 +1138,10 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
@@ -1143,7 +1155,7 @@ exports.default = {
       this.$refs.leftSidenav.toggle();
     },
     loadCategory: function loadCategory(category) {
-      if (category !== 'cadastro' && !window.localStorage.token) {
+      if (category !== 'cadastro' && category !== 'consulta' && !window.localStorage.token) {
         swal({
           title: 'Acesso não autorizado',
           text: 'Usuário não logado',
@@ -1285,6 +1297,18 @@ var render = function() {
               }
             },
             [_vm._v("\n\tTítulo\n      ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "md-list-item",
+            {
+              on: {
+                click: function($event) {
+                  _vm.loadCategory("consulta")
+                }
+              }
+            },
+            [_vm._v("\n\tConsulta\n      ")]
           )
         ],
         1
@@ -3587,6 +3611,331 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1752dd6e", module.exports)
+  }
+}
+
+/***/ }),
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(167)
+/* template */
+var __vue_template__ = __webpack_require__(168)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src/components/consulta.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-60ad68f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-60ad68f6", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    return {
+      clients: [],
+      cpf: '',
+      token: null
+    };
+  },
+
+  methods: {
+    search: function search() {
+      if (!this.cpf) {
+        swal({
+          title: 'CPF vazio',
+          text: 'Favor digitar um CPF',
+          type: 'warning'
+        });
+      } else {
+        if (window.localStorage.token) {
+          this.getDataPartner();
+        } else {
+          this.getDataClient();
+        }
+      }
+    },
+    getDataPartner: function getDataPartner() {
+      var _this = this;
+
+      this.$http.get('consulta/parceiro/' + this.cpf, { headers: { Authorization: window.localStorage.token } }).then(function (response) {
+        if (response.data) {
+          _this.clients = response.data;
+        }
+      }, function (response) {
+        swal({
+          title: response.statusText,
+          text: 'Erro: ' + response.status + ', ' + response.body.mensagem,
+          type: 'error'
+        });
+      });
+    },
+    getDataClient: function getDataClient() {
+      var _this2 = this;
+
+      this.$http.get('consulta/cliente/' + this.cpf).then(function (response) {
+        if (response.data) {
+          _this2.clients = response.data;
+        }
+      }, function (response) {
+        swal({
+          title: response.statusText,
+          text: 'Erro: ' + response.status + ', ' + response.body.mensagem,
+          type: 'error'
+        });
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    this.token = window.localStorage.token;
+  }
+};
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "columns is-centered" },
+        [
+          _c(
+            "md-tabs",
+            { attrs: { "md-centered": "" } },
+            [
+              _c("md-tab", { attrs: { "md-label": "Pesquisar" } }, [
+                _c("div", { staticClass: "columns is-centered" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-half is-centered" },
+                    [
+                      _c(
+                        "md-input-container",
+                        [
+                          _c("label", [_vm._v("CPF do cliente")]),
+                          _vm._v(" "),
+                          _c("md-textarea", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.cpf,
+                              callback: function($$v) {
+                                _vm.cpf = $$v
+                              },
+                              expression: "cpf"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "md-button",
+                        {
+                          staticClass: "md-raised md-primary",
+                          on: {
+                            click: function($event) {
+                              _vm.search()
+                            }
+                          }
+                        },
+                        [_vm._v("Pesquisar")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("md-tab", { attrs: { "md-label": "Títulos" } }, [
+                _c("div", { staticClass: "columns is-centered" }, [
+                  _c("table", { staticClass: "table" }, [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("ID título")]),
+                        _vm._v(" "),
+                        _vm.token
+                          ? _c("th", [_vm._v("ID parceiro")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.token ? _c("th", [_vm._v("ID cliente")]) : _vm._e(),
+                        _vm._v(" "),
+                        _vm.token ? _c("th", [_vm._v("Valor")]) : _vm._e(),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Descrição")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Situação")]),
+                        _vm._v(" "),
+                        _vm.token
+                          ? _c("th", [_vm._v("Data pagamento")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.token
+                          ? _c("th", [_vm._v("Data emissão")])
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.clients, function(item) {
+                        return _c("tr", [
+                          _c("td", [_vm._v(_vm._s(item.id_titulo))]),
+                          _vm._v(" "),
+                          _vm.token
+                            ? _c("td", [_vm._v(_vm._s(item.id_parceiro))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.token
+                            ? _c("td", [_vm._v(_vm._s(item.id_cliente))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.token
+                            ? _c("td", [_vm._v(_vm._s(item.valor))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.descricao))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.situacao))]),
+                          _vm._v(" "),
+                          _vm.token
+                            ? _c("td", [_vm._v(_vm._s(item.data_pagamento))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.token
+                            ? _c("td", [_vm._v(_vm._s(item.data_emissao))])
+                            : _vm._e()
+                        ])
+                      })
+                    )
+                  ])
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("router-view")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-60ad68f6", module.exports)
   }
 }
 

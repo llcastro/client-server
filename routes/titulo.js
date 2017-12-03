@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
     return res.status(401).json({ mensagem: 'Usuário não logado!' });
   }
   
-  if (!req.body.id_cliente || !req.body.id_parceiro || !req.body.valor || !req.body.data_emissao || !req.body.situacao || !req.body.descricao) {
+  if (!req.body.id_cliente || !req.body.valor || !req.body.data_emissao || !req.body.situacao || !req.body.descricao) {
     return res.status(400).json({ mensagem: 'erro 400' });
   }
 

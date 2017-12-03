@@ -32,6 +32,10 @@
       <md-list-item @click="loadCategory('titulo')">
 	Título
       </md-list-item>
+
+      <md-list-item @click="loadCategory('consulta')">
+	Consulta
+      </md-list-item>
     </md-sidenav>
     
     <router-view></router-view>
@@ -50,7 +54,7 @@
        this.$refs.leftSidenav.toggle();
      },
      loadCategory(category) {
-       if (category !== 'cadastro' && !window.localStorage.token) {
+       if (category !== 'cadastro' && category !== 'consulta' && !window.localStorage.token) {
 	 swal({
 	   title: 'Acesso não autorizado',
 	   text: 'Usuário não logado',
